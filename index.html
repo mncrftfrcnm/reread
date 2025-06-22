@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Book Haven – Share the Joy of Reading</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Georgia', serif;
+      background: #f9f4ef;
+      color: #3e2c1c;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    header {
+      background-color: #e6d3b3;
+      padding: 2rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      width: 100%;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      color: #4b2e1a;
+    }
+
+    p {
+      font-size: 1.2rem;
+      margin-top: 1rem;
+      max-width: 600px;
+    }
+
+    #three-container {
+      width: 100%;
+      max-width: 600px;
+      height: 400px;
+      margin-top: 2rem;
+    }
+
+    footer {
+      margin-top: 3rem;
+      padding: 1rem;
+      font-size: 0.9rem;
+      color: #76624d;
+    }
+
+    button {
+      background-color: #c4a484;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      color: white;
+      font-size: 1rem;
+      border-radius: 8px;
+      margin-top: 1.5rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #a27b5c;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>📚 Book Haven</h1>
+    <p>Share your books and donate joy. Let’s build a world where stories live on in every hand and every shelf.</p>
+    <button onclick="alert('Thank you for your kindness! 📖✨')">Donate a Book</button>
+  </header>
+
+  <div id="three-container"></div>
+
+  <footer>
+    Made with love for readers everywhere. © 2025 Book Haven
+  </footer>
+
+  <!-- three.js from CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+  <script>
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(60, 600 / 400, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(600, 400);
+    document.getElementById('three-container').appendChild(renderer.domElement);
+
+    // Book-like object
+    const bookGroup = new THREE.Group();
+
+    // Cover (spine)
+    const spineGeometry = new THREE.BoxGeometry(0.4, 2, 3);
+    const spineMaterial = new THREE.MeshStandardMaterial({ color: 0x6e4c2b });
+    const spine = new THREE.Mesh(spineGeometry, spineMaterial);
+    spine.position.x = -0.8;
+    bookGroup.add(spine);
+
+    // Pages
+    const pagesGeometry = new THREE.BoxGeometry(1.6, 2, 3);
+    const pagesMaterial = new THREE.MeshStandardMaterial({ color: 0xfefefe });
+    const pages = new THREE.Mesh(pagesGeometry, pagesMaterial);
+    pages.position.x = 0.2;
+    bookGroup.add(pages);
+
+    scene.add(bookGroup);
+
+    // Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+    const directionalLight = new THREE.DirectionalLight(0xfff8e7, 1);
+    directionalLight.position.set(5, 5, 5);
+    scene.add(ambientLight);
+    scene.add(directionalLight);
+
+    camera.position.z = 6;
+
+    // Animate
+    function animate() {
+      requestAnimationFrame(animate);
+      bookGroup.rotation.y += 0.01;
+      bookGroup.rotation.x = Math.sin(Date.now() * 0.001) * 0.1;
+      renderer.render(scene, camera);
+    }
+
+    animate();
+  </script>
+</body>
+</html>
